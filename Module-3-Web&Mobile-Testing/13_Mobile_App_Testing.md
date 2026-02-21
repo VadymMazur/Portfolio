@@ -1,1 +1,58 @@
-Some text
+# 🐛 Bug Report Log: Zpolis Project
+
+**Project:** Zpolis (Medical Center)  
+**Testing Environment:** Android Studio Emulator (Android-15) | Browser: Chrome  
+**Reporter/Assignee:** Vadym Mazur  
+**Report Date:** 02/12/2026
+
+---
+
+## 📊 Defect Summary Table
+
+| ID | Title | Severity | Priority | Status | Actual Result | Evidence |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **bug_003** | 404 Error on Carousel Click | 🔴 S2•Crit | 🔥 P2•High | Open | Redirects to a "404 Not Found" page. | [Link](https://drive.google.com/file/d/1rCgZyvDzuk14jj-CTYvYaBiq3C3iFeZh/view?usp=drive_link) |
+| **bug_001** | Missing Image on Home Page | 🟡 S3•Maj | 🔵 P2•High | Open | First image on main page is missing. | [Link](https://drive.google.com/file/d/1vyCRopPZVdMDlhpYIAJHd57YYy3Z4jhc/view?usp=drive_link) |
+| **bug_004** | Inconsistent Font Styles | 🟡 S3•Maj | ⚪ P3•Med | Open | Mixed font styles on specific location pages. | [Link](https://drive.google.com/file/d/1h3HLG4dj1JKRrxTClqMRsnIo7iDnAqt7/view?usp=drive_link) |
+| **bug_002** | Menu Navigation Disabled | 🟢 S4•Min | ⚪ P3•Med | Open | Burger menu is unresponsive after pop-up. | [Link](https://drive.google.com/file/d/1INVJQbLC6pGLN27uQnWB_2gQ91IljyKL/view?usp=drive_link) |
+| **bug_005** | Missing Staff Photos / UX | 🟢 S4•Min | ⚪ P4•Low | Open | No staff photos; unstyled/hidden links. | [Link](https://drive.google.com/file/d/1IO9lOEdd3WnXvLyiZBBcw8vAUxnt1q3H/view?usp=drive_link) |
+
+---
+
+## 📝 Detailed Bug Reports
+
+### [bug_003] 404 Not Found on Carousel Navigation
+* **Description:** Clicking on items within the home page carousel leads to a broken 404 page.
+* **Steps to Reproduce:**
+    1. Open `https://zpolis.com.ua/` in Android Emulator.
+    2. Scroll down to the carousel block.
+    3. Click on any slide in the carousel.
+* **Expected Result:** User is redirected to a valid service or informational page.
+* **Actual Result:** Page displays "404 Not Found".
+
+
+
+[Image of 404 Not Found Error Page]
+
+
+### [bug_001] Missing Hero Image on Mobile
+* **Description:** The primary branding image on the home page does not load in the mobile emulator.
+* **Steps to Reproduce:**
+    1. Launch the main page.
+    2. Observe the first content block.
+* **Expected Result:** High-quality image displayed as part of the home page UI.
+* **Actual Result:** No image visible; empty space or broken placeholder.
+
+### [bug_004] Typography Inconsistency
+* **Description:** Different font families are used on the "vul. Mykilsko-Slobidska, 4d" page, making the UI look unprofessional.
+* **Steps to Reproduce:**
+    1. Navigate to the branch address: "vul. Mykilsko-Slobidska, 4d".
+    2. Observe the text blocks.
+* **Expected Result:** Uniform font usage across all sections.
+* **Actual Result:** Mixed styles/fonts present.
+
+---
+
+## 🛠 Next Steps
+* **High Priority Fix:** Resolve the `bug_003` (404 error) as it breaks the user journey.
+* **Visual Alignment:** Standardize CSS fonts to resolve `bug_004`.

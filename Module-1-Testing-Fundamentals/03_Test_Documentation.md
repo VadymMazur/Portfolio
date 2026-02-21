@@ -9,6 +9,7 @@
 |                     | 3 | Conditions & parameters | Transparency for team and client | Unclear results |
 | **Use Case**        | 1 | Interaction between users and application | Gap detection | Does not cover technical details |
 |                     | 2 | Covers entire system | User-oriented | Requires additional detailing |
+
 ✅ Checklist for Main Page Testing (Example: rozetka.ua)
 ### General Checks
 - Main page opens without errors (404 / 500)
