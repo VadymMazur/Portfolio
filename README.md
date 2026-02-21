@@ -66,5 +66,5 @@ Each folder contains the documentation (Google Docs links or Markdown files) and
 ---
 
 ## 📫 Contact
-* **LinkedIn:** [Your Link Here]
-* **Email:** [Your Email Here]#about me
+* **LinkedIn:** [https://www.linkedin.com/in/vadym-mazur-qa/]
+* **Email:** [vadik.mazur@gmail.com]
