@@ -33,7 +33,7 @@ Each folder contains the documentation (Google Docs links or Markdown files) and
 
 ### 🟦 Module 1: Testing Fundamentals
 * **[01_SDLC_STLC_Methodologies](./Module-1-Testing-Fundamentals/01_SDLC_STLC_Methodologies.md)** — SDLC, STLC, and Waterfall/Agile models.
-* **[02_Requirements_Analysis](./Module-1-Testing-Fundamentals/02_Requirements_Analysis.md)** — Analyzing and compiling software requirements.
+* **[02_Requirements_Analysis](./Module-1-Testing-Fundamentals/02_Reguirements_Analysis.md)** — Analyzing and compiling software requirements.
 * **[03_Test_Documentation](./Module-1-Testing-Fundamentals/03_Test_Documentation.md)** — Test Cases, Checklists, and Test Plans.
 * **[04_Testing_Levels_Types](./Module-1-Testing-Fundamentals/04_Testing_Levels_Types.md)** — Functional and non-functional testing overview.
 * **[05_Management_Tools](./Module-1-Testing-Fundamentals/05_Management_Tools.md)** — Hands-on with TestRail and Azure DevOps.
