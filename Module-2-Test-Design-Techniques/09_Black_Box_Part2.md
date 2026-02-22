@@ -1,6 +1,6 @@
 # 🧪 Black-Box Test Design Techniques: Part 2
 
-This repository contains the completed homework for Lesson 11, focusing on State Transition Diagrams, Decision Tables, and Use Case development for a cat-sharing startup.
+This repository contains the completed homework for Lesson 11, focusing on State Transition Diagrams, Decision Tables, and Use Case development for a "Catstar" startup.
 
 ---
 

@@ -40,12 +40,12 @@ Yes. Modern Agile implementation has led to:
 
 ---
 
-## 3. Practical Case: "Cat Photo Sharing" Startup
+## 3. Practical Case: ""Catstar"" Startup
 
 **Chosen Methodology:** `Scrum`
 
 **Rationale:**
-As the founder of a startup for a cat photo-sharing app, I would choose Scrum for several key reasons:
+As the founder of a startup for a "Catstar" app, I would choose Scrum for several key reasons:
 1.  **Dynamic Environment:** Startup requirements change daily. Scrum's sprint structure allows us to pivot or add new "purr-fect" features based on early user feedback.
 2.  **Early MVP:** We can release a basic version (uploading a photo) in the first sprint and add filters or comments later.
 3.  **Transparency:** Regular Stand-ups and Retrospectives keep the small startup team aligned and motivated.

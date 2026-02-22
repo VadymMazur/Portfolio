@@ -6,7 +6,7 @@ This repository contains the documentation for our startup's transition to a pro
 
 ## ⚖️ 1. Severity vs. Priority: Real-World Scenarios
 
-Understanding the difference between technical impact (**Severity**) and business urgency (**Priority**) is crucial for our "Cat Sharing" app's success.
+Understanding the difference between technical impact (**Severity**) and business urgency (**Priority**) is crucial for our "Catstar" app's success.
 
 ### 🔴 Critical Severity / 🔵 Low Priority
 **Bug:** The application crashes immediately when a user attempts to upload a photo in `.TIFF` format on the "Legacy Browser Support" page.
@@ -49,4 +49,4 @@ To solve the team's coordination issues, we have implemented the following **Bug
 ---
 
 ## 🚀 Conclusion
-By implementing this **Jira Workflow** and strict **Severity/Priority** definitions, our cat-sharing startup ensures that we focus on what matters most: high-quality content and a seamless user experience for cat lovers worldwide.
+By implementing this **Jira Workflow** and strict **Severity/Priority** definitions, our "Catstar" startup ensures that we focus on what matters most: high-quality content and a seamless user experience for cat lovers worldwide.

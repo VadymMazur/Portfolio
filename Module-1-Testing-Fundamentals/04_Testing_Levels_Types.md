@@ -24,7 +24,7 @@ It helps detect critical/blocking defects early (e.g., app not launching, core f
 This prevents wasting time on deep testing of an unstable product.
 Smoke testing is relevant almost always, especially in CI/CD pipelines
 
-## 🧪 Test Cases (Cat App Example)
+## 🧪 Test Cases ("Catstar" App Example)
 ### TC-01: Upload cat photo
 - Status: Not executed
 - Precondition: User is authorized

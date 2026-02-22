@@ -43,7 +43,7 @@ Step count feedback logic:
 
 ---
 
-## 🔴 Maximum Level: "Cat Lovers" Startup Requirements
+## 🔴 Maximum Level: "Catstar" Startup Requirements
 
 ### 📋 Requirements Specification
 * **Photo Uploads:**

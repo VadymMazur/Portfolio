@@ -34,7 +34,7 @@ A comparative analysis of testing techniques, highlighting their advantages and 
 
 ---
 
-## 🐾 3. "Cat Lovers" Startup Algorithm
+## 🐾 3. "Catstar" Startup Algorithm
 
 I designed a decision-making algorithm for our cat photo-sharing app's interactive assistant.
 
