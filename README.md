@@ -28,7 +28,6 @@ Below are the repository folders organized by key QA artifacts:
 | [**`Bug_Reports`**](./Bug_Reports) | Professional defect reports (Summary, Steps, Actual/Expected). | Jira, Azure DevOps, Bug Lifecycle Management |
 | [**`API_Testing`**](./API_Testing) | Postman collections (REST/JSON) and SoapUI project files. | Postman, Newman, REST API, JSON Validation |
 | [**`SQL_Queries`**](./SQL_Queries) | Scripts for data validation and complex database queries. | SELECT, JOINs, Aggregate functions, Pattern Matching |
-| [**`Test_Reports`**](./Test_Reports) | Test Summary Reports (TSR) and quality metrics. | Quality Metrics, Pass/Fail rate, Final Assessment |
 | [**`Mindmaps`**](./Mindmaps) | Visual architecture maps and functional decomposition. | XMind, MindMeister, Visual Planning |
 
 ---
