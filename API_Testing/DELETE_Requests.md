@@ -57,5 +57,5 @@ pm.test("Status code is 204", function () {
 pm.test("Response time is less than 500ms", function () {
     pm.expect(pm.response.responseTime).to.be.below(500);
 });
-
+```
 [⬅️ Back to Api Testing Index](./)
