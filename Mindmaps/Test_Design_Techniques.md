@@ -64,4 +64,4 @@ Complex Financial Logic: Use Decision Tables to map out tax rates or loan approv
 
 User Journeys: Apply State Transition and Use Case Testing to verify checkout flows and order lifecycles.
 
-[⬅️ Back to Mindmaps Index](./README.md)
+[⬅️ Back to Mindmaps Index](./)

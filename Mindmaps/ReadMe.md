@@ -13,7 +13,7 @@ Below is the index of the interactive diagrams available in this repository:
 
 | Mindmap / Flowchart | Description | Focus Area |
 | :--- | :--- | :--- |
-| [**Bug Lifecycle**](Bug_Lifecycle.md) | The standard state-transition workflow of a defect from discovery to closure. | Defect Management, Jira Flow |
+| [**Bug Lifecycle**](Defect_lifecycle.md) | The standard state-transition workflow of a defect from discovery to closure. | Defect Management, Jira Flow |
 | [**Platform Testing Checklists**](Checklist_Mobile_Web_API.md) | Core differences and testing bottlenecks across Web, Mobile, and API platforms. | Test Planning, Cross-Platform |
 | [**Mobile Testing Process**](Mobile_Testing_Process.md) | End-to-end QA workflow specifically tailored for mobile application constraints. | Mobile QA, App Lifecycle |
 | [**Test Design Techniques**](Test_Design_Techniques.md) | Categorization of Black-box and White-box techniques used to optimize test cases. | Test Coverage, Optimization |
@@ -34,4 +34,4 @@ Below is the index of the interactive diagrams available in this repository:
 * **Draw.io / Lucidchart:** For system architecture and network flow diagrams.
 
 ---
-[⬅️ Back to Main Portfolio](../README.md)
+[⬅️ Back to Main Portfolio](./)

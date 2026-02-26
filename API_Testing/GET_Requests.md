@@ -83,9 +83,11 @@ This technical guide documents the validation of data retrieval via RESTful GET 
     "total_pages": 3
   }
 }
+```
 
 ## I use the following script to ensure data types are correct for every GET request:
 
+```java
 // Validating JSON Schema and Data Types
 const jsonData = pm.response.json();
 
@@ -97,3 +99,5 @@ pm.test("Data Integrity Check", () => {
     pm.expect(jsonData.id).to.be.a('number');
     pm.expect(jsonData.email).to.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 });
+```
+[⬅️ Back to Api Testing Index](./)

@@ -31,72 +31,6 @@ This section demonstrates the validation of data submission and resource creatio
   "password": "securePassword123"
 }
 ```
-
-## Expected Results:
-
-Status Code: 201 Created
-
-Data Masking: Verified that the password field is not returned in the response body.
-
-Database Integrity: Response id is generated as a unique integer.
-
-## 2. Authentication & JWT Generation
-Endpoint: POST /auth/login
-
-Logic: Verifies credential validation and token issuance.
-
-Success Criteria:
-
-Status: 200 OK (Standard for login)
-
-Header: Set-Cookie or Authorization header contains a valid JWT.
-
-Payload:
-```
-{
-  "token": "eyJhbGciOiJIUzI1Ni...",
-  "expires_in": 3600,
-  "user_id": 51
-}
-```
-
-
-For a recruiter, the most important part of a POST request is how you test the Request Body. This version introduces a "Validation Logic" section, which proves you consider boundary values and field constraints.
-
-Markdown
-# 📤 API Testing: POST Methods & Resource Creation
-
-## 📌 Document Overview
-This section demonstrates the validation of data submission and resource creation. Key focus areas include payload structure, data types, authentication flows, and multi-part data handling.
-
----
-
-## 📋 POST Request Catalog
-
-| Module | Scenario | Request Type | Auth Required |
-| :--- | :--- | :--- | :--- |
-| **Auth** | User Login | `application/json` | No |
-| **Users** | Account Creation | `application/json` | Yes (Admin) |
-| **Inventory**| Product Review | `application/json` | Yes (User) |
-| **Media** | Image Upload | `multipart/form-data` | Yes (User) |
-| **Sales** | Order Placement | `application/json` | Yes (User) |
-
----
-
-## 🧪 Detailed Test Scenarios
-
-### 1. Account Creation (User Management)
-**Endpoint:** `POST /users`  
-**Description:** Validates the system's ability to create a new user entity while enforcing password security.
-
-**Request Body:**
-```json
-{
-  "name": "Eve",
-  "email": "eve@example.com",
-  "password": "securePassword123"
-}
-```
 Expected Results:
 
 Status Code: 201 Created
@@ -165,3 +99,4 @@ Sample Request:
   "payment_method": "credit_card"
 }
 ```
+[⬅️ Back to Api Testing Index](./)

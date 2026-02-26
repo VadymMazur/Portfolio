@@ -95,3 +95,4 @@ Result:
 
 ### 🧾 **Insight:** Each test run includes case-level detail with associated projects, statuses, and execution times. Useful for granular test reporting and performance analysis.
 
+[⬅️ Back to SQL Queries Index](./)

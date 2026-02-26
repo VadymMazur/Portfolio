@@ -42,4 +42,4 @@ graph LR
 * **Mermaid.js** (for documentation as code)
 
 ---
-[⬅️ Back to Mindmaps Index](./README.md)
+[⬅️ Back to Mindmaps Index](./)

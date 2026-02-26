@@ -33,6 +33,7 @@ This document covers the validation of `PUT` requests, specifically focusing on 
     "country": "USA"
   }
 }
+```
 ### Success Criteria:
 
 Status Code: 200 OK.
@@ -48,7 +49,7 @@ Testing Focus: Integrity of mandatory fields.
 
 Body:
 
-JSON
+```json
 {
   "name": "Wireless Mouse Pro",
   "description": "Ergonomic wireless mouse with customizable DPI and silent buttons.",
@@ -56,6 +57,7 @@ JSON
   "stock": 120,
   "category": "Accessories"
 }
+```
 ### Validation Logic (QA Insights):
 
 Idempotency Check: I verify that sending the same PUT request multiple times results in the same state (Idempotency).
@@ -64,7 +66,7 @@ Null Field Test: I test system behavior when a mandatory field (e.g., price) is 
 ## ⚙️ Postman Automation (Validation Script)
 I implement these checks to ensure the server handles updates correctly:
 
-JavaScript
+```Java
 const response = pm.response.json();
 
 pm.test("Update Successful - Status 200", () => {
@@ -81,3 +83,5 @@ pm.test("Data Consistency: Name matches request", () => {
     const requestData = JSON.parse(pm.request.body.raw);
     pm.expect(response.name).to.eql(requestData.name);
 });
+```
+[⬅️ Back to Api Testing Index](./)

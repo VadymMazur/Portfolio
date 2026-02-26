@@ -61,4 +61,4 @@ Mobile: Android Studio (Emulator), Xcode (Simulator), Real Devices.
 
 API: Postman, SoapUI, Swagger.
 
-[⬅️ Back to Mindmaps Index](./README.md)
+[⬅️ Back to Mindmaps Index](./)

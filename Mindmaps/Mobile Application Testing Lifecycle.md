@@ -52,4 +52,4 @@ Mobile-Specific Execution: Simulating real-world conditions like dropping networ
 
 Defect Reporting: Providing developers with clear steps to reproduce, device logs, and screen recordings via Jira or Azure DevOps.
 
-[⬅️ Back to Mindmaps Index](./README.md)
+[⬅️ Back to Mindmaps Index](./)
