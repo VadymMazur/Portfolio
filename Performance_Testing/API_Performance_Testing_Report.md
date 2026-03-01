@@ -22,7 +22,7 @@ The testing confirms that the API endpoints are fully functional, and the JMeter
 | **PATCH -> Partial Update** | 600 | 100% | 146.1 ms | 134 ms | 315 ms |
 | **DELETE -> Remove Post** | 600 | 100% | 147.8 ms | 133 ms | 288 ms |
 
-### Visual Analysis (JMeter Summary Report)
+### Running a test and generating a report using the command line
 ![JMeter Summary Report](./summary_report.png)
 
 ---
