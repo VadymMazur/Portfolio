@@ -1,84 +1,55 @@
-# Load Testing Report: JSONPlaceholder API
+# JMeter run review: JSONPlaceholder
 
+**Historical run:** 1 March 2026, as shown in the console capture and sample timestamps. **Analysis revised:** 5 October 2026. No new load was sent to the public service during this review.
 
+## Result and interpretation
 
-## 1. Executive Summary
-- **Test Status:** PASS ✅
-- **Total Samples:** 3,000
-- **Success Rate:** 100% (3,000 successful / 0 failed)
-- **Average Response Time:** ~132 ms
+The committed JTL contains **3,000 samples**, all marked `success=true`. Recalculated mean elapsed response time is **138.04 ms**, not the earlier report's approximate 132 ms. This is a recorded sampler result, not proof that every API behavior or business rule passed.
 
-The testing confirms that the API endpoints are fully functional, and the JMeter test script is correctly calibrated to handle standard REST HTTP response codes (`200 OK` and `201 Created`).
+## Recalculated metrics
 
----
+Labels below are preserved exactly as recorded. They do not prove which HTTP method was sent.
 
-## 2. Updated Metrics Summary
+| Label | Samples | Errors | Mean ms | Min ms | Max ms | p90 ms | p95 ms |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Delete -> | 600 | 0 | 156.02 | 134 | 484 | 145 | 372 |
+| GET ->List of posts | 600 | 0 | 63.44 | 26 | 505 | 99 | 124 |
+| Patch -> | 600 | 0 | 149.40 | 134 | 483 | 145 | 154 |
+| Post -> | 600 | 0 | 155.68 | 134 | 451 | 153 | 357 |
+| Put -> | 600 | 0 | 165.65 | 134 | 485 | 355 | 362 |
 
-| Request Label | Samples | Success Rate | Avg Latency | Min Time | Max Time |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **GET -> List of posts** | 600 | 100% | 68.4 ms | 25 ms | 436 ms |
-| **POST -> Create Post** | 600 | 100% | 148.2 ms | 133 ms | 382 ms |
-| **PUT -> Update Post** | 600 | 100% | 149.5 ms | 134 ms | 412 ms |
-| **PATCH -> Partial Update** | 600 | 100% | 146.1 ms | 134 ms | 315 ms |
-| **DELETE -> Remove Post** | 600 | 100% | 147.8 ms | 133 ms | 288 ms |
+- **Observed sample window:** 11.707 seconds, from earliest start to latest start + elapsed time.
+- **Aggregate throughput over that window:** 256.26 samples/second.
+- **Peak recorded `allThreads`:** 126 active JMeter threads. This is neither open socket count nor requests/second.
+- **Percentiles:** nearest rank, calculated independently within each label.
 
-### Running a test and generating a report using the command line
-![JMeter Summary Report](./summary_report.png)
+The console reports 254.4 samples/second over its own run interval. Its denominator differs from the JTL sample window; the two throughput figures should not be presented as the same calculation. The `elapsed` field is response time; it is not the separate JMeter `Latency` field.
 
----
+Run `python Performance_Testing/analyze_results.py` from the repository root to reproduce this table.
 
-## 3. Test Objectives
-The main goal of this test is to evaluate the performance, stability, and response speed of the API (using the JSONPlaceholder test service as an example) under moderate concurrent load.
+## Plan audit
 
-The testing was conducted to:
-* **Determine** whether the server can handle parallel requests without significant degradation in response time.
-* **Ensure** that under load, the API continues to return correct data of the expected size and format (does not crash with `500 Internal Server Error`).
-* **Check** the system's capacity margin and identify potential performance bottlenecks.
+The [archived plan](evidence/original_plan.jmx) contains two groups: 100 users each, ramp-up periods of 10 and 2 seconds, three loops, and five samplers per loop. Its nominal request count is **2 × 100 × 3 × 5 = 3,000**. The previous report used four samplers and an incorrect 1,200-request subtotal.
 
----
+Four material limitations were found:
 
-## 4. Load Parameters (Thread Group Configuration)
-The test simulates a realistic scenario of a user influx with the following parameters:
+1. Samplers labeled `Patch ->` and `Delete ->` are configured as **PUT in both groups**. The JTL does not include request methods, so PATCH/DELETE coverage cannot be established from the labels.
+2. The plan's duration assertions are **1000 ms**, not the previously described 500 ms.
+3. Several response assertions accept either 200 or 201 rather than requiring an operation-specific code. A green sampler can therefore conceal a wrong method or weak expectation.
+4. Size assertions constrain recorded byte counts. They do not validate JSON schema, persisted state, packet integrity or absence of server memory problems.
 
-* **Number of Threads (Users):** `100` — The service is hit by 100 virtual users simultaneously.
-* **Ramp-up period:** `10 seconds` — The load increases gradually. JMeter adds 10 new users every second. This avoids an artificial shock spike from the first millisecond and checks how the server adapts to growing traffic.
-* **Loop count:** `3` — Configured to run multiple iterations to gather a statistically significant number of samples.
+The console names a local plan with a different path/name from the repository file. No exact plan hash was stored with the run. The archived configuration is relevant context, but exact run-to-plan identity is unconfirmed.
 
-> **Total Load Volume:** 100 users * 3 iterations * 4 samplers = **1,200 HTTP requests** (per Thread Group), sent over a short period.
+## What the run does not establish
 
----
+This short sample does not determine maximum capacity, sustained-load stability, recovery, memory leaks or a production SLA. No CPU, memory, database or backend traces are provided. Response-size consistency does not prove correct business data. The thread-group name "Stress Testing" does not prove a breaking point was reached.
 
-## 5. Assertions (Success Criteria)
-To ensure the test doesn't just "spam" the server but also checks the quality of its responses, specific Assertions were added to the HTTP samplers:
+JSONPlaceholder simulates create/update/delete responses rather than persisting those changes. Consequently, successful write responses here are not evidence of database persistence. [JSONPlaceholder guide](https://jsonplaceholder.typicode.com/guide/)
 
-* **Response Assertion:** Guarantees that the server processed the request correctly (e.g., returned a `200 OK` or `201 Created` status). If the server starts throwing errors due to overload, this assertion flags the request as failed.
-* **Size Assertion:** Controls the volume of the response data (in bytes). This ensures that under load, the server returns a complete JSON object, not a truncated, partial, or empty response due to backend memory constraints.
-* **Duration Assertion:** Sets a strict time limit (SLA) for request processing. If a request takes longer than the allowed threshold (e.g., over `500 ms`), it is marked as failed. This is a key indicator that the system has started to lag.
+## Correction and next experiment
 
----
+The [revised plan](Test_plan.jmx) uses actual PATCH/DELETE methods, explicit JSON headers, per-method expected codes and a loopback target. It is intentionally a ten-request smoke check against the [synthetic stub](local_stub.py), separate from the historical measurement. The original evidence remains unchanged.
 
-## 6. What This Test Demonstrates
-By reviewing the finalized results (via Listeners like the *Summary Report* or *View Results Tree*), this test validates:
+For a meaningful performance experiment, first specify a business workload, independent test data, baseline, warm-up and sustained duration, latency percentiles/error thresholds, monitoring and stop criteria on an authorized environment. Evaluate persistence and side effects separately from timings.
 
-* **Throughput:** How many real requests per second (RPS) the server can successfully process.
-* **Error Rate:** The percentage of requests that failed the success criteria (due to timeouts, incorrect sizes, or server errors).
-* **Response Times:** Minimum, maximum, and average response times, which are standard metrics for evaluating API speed in real-world conditions.
-
----
-
-## 7. Detailed Conclusions (Based on JMeter Logs)
-
-After analyzing the raw test execution logs (`.jtl` file), the following objective conclusions can be made regarding the API's behavior under the applied load:
-
-1. **Load Configuration (Parallel Thread Groups):** The test environment successfully handled multiple concurrent thread groups (e.g., "Load Testing" and "Stress Testing"). The maximum number of simultaneous active virtual users (`allThreads`) recorded during peak execution reached **121 connections**.
-2. **100% Request Success (Error Rate = 0%):** The server perfectly managed the influx of users. Every single HTTP sampler (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`) finished with `success=true`. The server never refused service, consistently returning valid HTTP codes.
-3. **Performance and Response Time Analysis:**
-    * **Connection Warm-up (Ramp-up):** The highest latencies were observed during the very first requests. For instance, initial `GET` requests took up to 400-500 ms, and early `POST`/`PUT` requests took 350-380 ms. This is typical web server behavior, representing the overhead of establishing DNS, TCP, and SSL connections.
-    * **Stabilization:** Following the initial warm-up, the server's response times improved drastically. The vast majority of subsequent `GET` requests were processed in just **25-80 ms**.
-    * **Write Operations:** Heavier requests that simulate data modification (`POST`, `PUT`, `PATCH`, `DELETE`) were highly stable, averaging between **130–160 ms**.
-4. **Data Transfer Stability (Payload Size & Network):** The server consistently generated complete responses without truncating packets due to RAM shortages. The request for the list of posts (`GET -> List of posts`) consistently returned an exact size of `28,746` bytes. Responses for `POST` requests were around `1,330–1,334` bytes, while `PUT/PATCH/DELETE` responses were around `1,200–1,204` bytes. This confirms the *Size Assertion* passed perfectly and response formatting remained intact.
-
----
-
-### 🚀 Final Summary
-The tested backend (`JSONPlaceholder`) possesses a massive performance margin. The generated load (~120 concurrent threads) did not push the API to its breaking point. There were no signs of system degradation (such as a gradual increase in response times toward the end of the test)—the server operated with high stability and speed. To discover its true breaking point, the request generation intensity (RPS) would need to be scaled up significantly.
+[JMeter component reference](https://jmeter.apache.org/usermanual/component_reference.html) · [Evidence files](evidence/README.md) · [Back to performance index](README.md)

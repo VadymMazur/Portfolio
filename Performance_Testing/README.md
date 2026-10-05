@@ -1,47 +1,46 @@
-# 🚀 Performance Testing & Load Analysis
+# JMeter: configuration and evidence review
 
-## 📌 Document Overview
-This section contains comprehensive reports and configurations for performance testing. The focus is on evaluating system stability, responsiveness, and scalability under various load conditions using **Apache JMeter**.
+This section demonstrates how to inspect a test plan, recalculate results and identify limits in the evidence. It contains a historical public-demo run and a separate corrected local method-check plan.
 
----
+| Artifact | Purpose |
+|---|---|
+| [Analysis](API_Performance_Testing_Report.md) | Recalculated metrics and findings |
+| [Historical evidence](evidence/README.md) | Original samples, console screenshot and pre-review plan |
+| [Offline analyzer](analyze_results.py) | Reproduces metrics without sending requests |
+| [Revised JMeter plan](Test_plan.jmx) | Correct HTTP methods; ten requests against loopback by default |
+| [Local stub](local_stub.py) | Stateless synthetic responses for checking plan wiring |
 
-## 📊 Test Summary Reports (TSR)
+## Reproduce the recorded metrics
 
-Each report provides a deep dive into the system's behavior, focusing on critical performance indicators to ensure the application meets the required service-level agreements (SLAs).
+From the repository root, with Python 3.10+:
 
-### 📂 Detailed Reports:
-* 📄 [**API Performance Testing Report**](API_Performance_Testing_Report.md) — Full analysis of backend response times and error rates under load.
+```powershell
+python Performance_Testing/analyze_results.py
+```
 
-### 📈 Key Performance Metrics
-* **Throughput (Requests/sec):** Measuring the number of transactions the application can handle per second.
-* **Latency & Response Time:** Tracking Average, Median, and 90th Percentile (90% Line) to identify bottlenecks.
-* **Error Rate:** Monitoring the percentage of failed requests (e.g., 500 Server Errors or Timeouts).
-* **Resource Utilization:** Analyzing CPU and Memory consumption during peak loads.
+The script reads the committed JTL, uses elapsed response time, and calculates p90/p95 with the nearest-rank method. It does not run a load test.
 
+## Check the revised plan locally
 
+Requires Java and Apache JMeter; the plan was checked with JMeter 5.6.3. In the first terminal:
 
----
+```powershell
+python Performance_Testing/local_stub.py
+```
 
-## ⚖️ Quality Gates & Criteria
+In another terminal, from the repository root:
 
-To ensure a high-quality user experience, every build must pass the following predefined **Quality Gates**:
+```powershell
+New-Item -ItemType Directory -Force Performance_Testing/output
+jmeter -n -t Performance_Testing/Test_plan.jmx -l Performance_Testing/output/local-smoke.jtl -j Performance_Testing/output/jmeter.log
+```
 
-| Metric | Threshold (Quality Gate) | Description |
-| :--- | :--- | :--- |
-| **Pass Rate** | > 99.5% | Minimum percentage of successful requests required to pass. |
-| **Response Time** | < 2.0s | 90% of requests must be served within this timeframe. |
-| **Max Error Rate** | < 0.5% | The test fails if the error rate exceeds this limit. |
-| **Stability** | 100% | The system must not crash or require manual restarts during Stress tests. |
+Use a fresh output filename for each run so samples are not appended to an earlier run. Stop the stub with Ctrl+C. If port 8765 is occupied, choose another local port with `--port` on the stub and `-Jport=` on JMeter.
 
----
+The plan uses two groups, each with one user, one loop and five requests: GET, POST, PUT, PATCH and DELETE. It checks the stub's expected status codes and a 1000 ms duration limit. That duration is a local smoke guard, not a product SLA. Writes are echoed without persistence; this check establishes method wiring, not CRUD correctness or capacity. Generated output is ignored by Git.
 
-## 🛠 Tools & Methodology
-* **Tooling:** Apache JMeter for load generation and HTML Dashboard for reporting.
-* **Testing Types:** * **Load Testing:** Verifying behavior under expected concurrent user traffic.
-    * **Stress Testing:** Identifying the upper limits and breaking points of the infrastructure.
-    * **Endurance (Soak) Testing:** Checking for memory leaks over extended periods.
+**Local verification, 5 October 2026:** JMeter completed 10/10 samples without errors; the local server log confirmed two requests for each of GET, POST, PUT, PATCH and DELETE. This verifies wiring against the stub only.
 
+The historical public-service plan is retained for audit only. New load experiments require an owned/authorized test system, agreed workload, duration, stop criteria and monitoring.
 
-
----
-[⬅️ Back to Main Portfolio](../README.md)
+[Back to portfolio](../README.md)

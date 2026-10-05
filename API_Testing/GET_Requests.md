@@ -1,103 +1,28 @@
-# 🔍 API Testing: GET Methods & Data Retrieval
+# GET: retrieval, scope and pagination
 
-## 📌 Document Scope
-This technical guide documents the validation of data retrieval via RESTful GET requests. It focuses on functional correctness, query parameter logic, and response integrity for the Users and Products modules.
+**Status:** proposed exercise; not executed. Assume `/users/{id}` returns an object and `/products` returns `{data, meta}` with one-based pagination and a stable sort.
 
----
+| ID | Input / condition | Expected result | Risk |
+|---|---|---|---|
+| GET-01 | Existing user visible to this actor | 200; ID and fields match fixture | Wrong-record response |
+| GET-02 | Well-formed nonexistent ID | 404 under this contract | Absence confused with validation failure |
+| GET-03 | Existing user outside actor scope | Denied per contract; no private fields | Data disclosure |
+| GET-04 | Filter with matches, then no matches | Every item satisfies filter; empty collection for no matches | Incorrect filtering |
+| GET-05 | Pages 1, 2 and 3; limit 3; fixed set of 9 | No gaps/duplicates; consistent totals and deterministic order | Off-by-one and unstable pagination |
+| GET-06 | Page 0, negative/non-integer page, excessive limit | Defined validation response | Invalid input and uncontrolled result size |
 
-## 🛠 Testing Framework & Tools
-* **Protocol:** HTTPS / REST
-* **Auth:** Bearer Token-based Authorization
-* **Validation Tool:** Postman / Newman
-* **Data Format:** JSON (UTF-8)
+Postman assertion for GET-01 only; do not apply this object-level check to array responses:
 
----
-
-## 📋 API Catalog & Test Scenarios
-
-### 1. User Directory Access
-| Scenario | Endpoint | Expected Behavior |
-| :--- | :--- | :--- |
-| **Fetch All Users** | `GET /users` | Returns a full array of user objects with `id`, `name`, and `email`. |
-| **Direct Search (ID)** | `GET /users/:id` | Returns a specific object. Validates `200 OK` vs `404 Not Found`. |
-| **Role-Based Filter** | `GET /users?role={val}` | Verifies server-side filtering logic for specific user groups. |
-
----
-
-### 2. Product Management & Search
-| Scenario | Endpoint | Expected Behavior |
-| :--- | :--- | :--- |
-| **Pagination Logic** | `GET /products?page=2&limit=3` | Validates offset/limit calculations and metadata consistency. |
-| **Keyword Search** | `GET /products?search={kw}` | Verifies string pattern matching within the product database. |
-
----
-
-## 🧪 Detailed Request Specifications
-
-### 🔹 Retrieve User by Identity
-**Endpoint:** `{{base_url}}/users/42`  
-**Purpose:** Validates individual record integrity.
-
-
-
-**Positive Case (ID: 42):**
-* **Status Code:** `200 OK`
-* **Response Body Structure:**
-    ```json
-    {
-      "id": 42,
-      "name": "Charlie",
-      "email": "charlie@example.com",
-      "status": "active"
-    }
-    ```
-
-**Negative Case (Non-existent ID):**
-* **Status Code:** `404 Not Found`
-* **Error Object:**
-    ```json
-    {
-      "error_code": "RESOURCE_NOT_FOUND",
-      "message": "User with ID 42 was not found"
-    }
-    ```
-
----
-
-### 🔹 Advanced Pagination Testing
-**Endpoint:** `{{base_url}}/products?page=2&limit=3`  
-**Focus:** Metadata Validation.
-
-**Response Body Analysis:**
-```json
-{
-  "data": [
-    { "id": 101, "name": "Wireless Mouse" },
-    { "id": 102, "name": "USB Keyboard" },
-    { "id": 103, "name": "HD Monitor" }
-  ],
-  "meta": {
-    "current_page": 2,
-    "limit": 3,
-    "total_records": 9,
-    "total_pages": 3
-  }
-}
-```
-
-## I use the following script to ensure data types are correct for every GET request:
-
-```java
-// Validating JSON Schema and Data Types
-const jsonData = pm.response.json();
-
-pm.test("Status code is 200", () => {
+```javascript
+pm.test("Visible user matches the requested fixture", () => {
     pm.response.to.have.status(200);
-});
-
-pm.test("Data Integrity Check", () => {
-    pm.expect(jsonData.id).to.be.a('number');
-    pm.expect(jsonData.email).to.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+    const body = pm.response.json();
+    pm.expect(body.id).to.eql(Number(pm.variables.get("user_id")));
+    pm.expect(body.email).to.eql(pm.variables.get("expected_email"));
+    pm.expect(body).not.to.have.property("password");
 });
 ```
-[⬅️ Back to Api Testing Index](./)
+
+Prepare variables from an owned synthetic fixture. Record actor, dataset version and sort order before pagination checks. A loose email regex does not validate identity or the full schema.
+
+[Back to API index](README.md)

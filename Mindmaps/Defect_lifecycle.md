@@ -1,12 +1,12 @@
-# 🗺️ Bug Lifecycle Mindmap
+# Bug Lifecycle Mindmap
 
-## 📌 Overview
-This mindmap illustrates the standard workflow of a defect from its discovery to final resolution. Understanding this flow is essential for efficient collaboration between QA and Development teams.
+## Overview
+This mindmap illustrates an example workflow of a defect from its discovery to final resolution. Understanding this flow is essential for efficient collaboration between QA and Development teams.
 
 ---
 
-## 🖼️ Mindmap Visualization
-> **Tip:** I used a visual approach to map all possible transitions, including negative scenarios like "Reopened" or "Rejected".
+## Mindmap Visualization
+> **Tip:** I used a visual approach to map selected transitions, including negative scenarios like "Reopened" or "Rejected".
 
 ### Bug Lifecycle Flow
 ```mermaid
@@ -18,14 +18,14 @@ graph LR
   Retest -- Fail --> Reopened
   Reopened --> Open
   Retest -- Pass --> Closed
-  
+
   New -- Not a bug --> Rejected
   Open -- Postponed --> Deferred
 ```
 
 ---
 
-## 🔑 Key States Explained
+## Key States Explained
 
 1. **NEW:** A bug is logged by QA and enters the backlog.
 2. **ASSIGNED:** Responsibility is taken by a developer.
@@ -37,9 +37,8 @@ graph LR
 
 ---
 
-## 🛠 Tools Used
-* **XMind / MindMeister** (for visual design)
+## Tools Used
 * **Mermaid.js** (for documentation as code)
 
 ---
-[⬅️ Back to Mindmaps Index](./)
+[Back to mindmaps index](README.md)

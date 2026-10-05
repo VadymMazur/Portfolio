@@ -1,87 +1,30 @@
-# 🔄 API Testing: PUT Methods & Resource Updates
+# PUT: replacement and persistence
 
-## 📌 Document Overview
-This document covers the validation of `PUT` requests, specifically focusing on **Full Resource Updates**. Unlike `PATCH`, these requests are designed to replace the entire state of an existing entity. Key testing areas include data integrity, timestamp validation, and schema consistency.
-
----
-
-## 📋 PUT Request Catalog
-
-| Module | Scenario | Update Scope | Auth Level |
-| :--- | :--- | :--- | :--- |
-| **Users** | Profile Update | Full Object Replacement | User/Admin |
-| **Inventory**| Product Specification | Metadata & Stock Override | Manager/Admin |
-
----
-
-## 🧪 Detailed Test Scenarios
-
-### 1. Full User Profile Update
-**Endpoint:** `PUT /users/51`  
-**Description:** Verifies the ability to replace all user attributes (Name, Email, Contact, Address) in a single operation.
-
-**Request Body:**
-```json
-{
-  "name": "Eve Cooper",
-  "email": "eve.cooper@example.com",
-  "phone": "+1-555-1234",
-  "address": {
-    "street": "456 Innovation Rd",
-    "city": "Techville",
-    "postal_code": "54321",
-    "country": "USA"
-  }
-}
-```
-### Success Criteria:
-
-Status Code: 200 OK.
-
-Timestamp Validation: The updated_at field must reflect the current server time and be later than the created_at value.
-
-Data Persistence: A follow-up GET /users/51 must return the newly updated values exactly as provided in the PUT payload.
-
-## 2. Product Catalog Replacement
-Endpoint: PUT /products/101
-
-Testing Focus: Integrity of mandatory fields.
-
-Body:
+**Status:** proposed exercise; not executed. Assume `PUT /users/{id}` replaces the writable profile and returns 200. Required, optional and server-managed fields must be defined by the contract.
 
 ```json
-{
-  "name": "Wireless Mouse Pro",
-  "description": "Ergonomic wireless mouse with customizable DPI and silent buttons.",
-  "price": 49.99,
-  "stock": 120,
-  "category": "Accessories"
-}
+{"name": "Synthetic Updated User", "email": "updated@example.test"}
 ```
-### Validation Logic (QA Insights):
 
-Idempotency Check: I verify that sending the same PUT request multiple times results in the same state (Idempotency).
-Null Field Test: I test system behavior when a mandatory field (e.g., price) is missing from the PUT body—expecting a 400 Bad Request since PUT requires the full object.
+| ID | Check | Expected evidence |
+|---|---|---|
+| PUT-01 | Valid replacement of owned record | 200; follow-up GET matches writable values |
+| PUT-02 | Identical replacement twice | Same intended business state; no duplicate business effect |
+| PUT-03 | Omit required vs optional fields separately | Documented rejection, default or removal behavior |
+| PUT-04 | Invalid value in one field | Error with no partial write if atomic replacement is required |
+| PUT-05 | Modify immutable ID or another user's record | No unauthorized mutation |
+| PUT-06 | Stale version/ETag where supported | Defined conflict/precondition response; no silent lost update |
 
-## ⚙️ Postman Automation (Validation Script)
-I implement these checks to ensure the server handles updates correctly:
-
-```Java
-const response = pm.response.json();
-
-pm.test("Update Successful - Status 200", () => {
+```javascript
+pm.test("Updated representation matches submitted fields", () => {
     pm.response.to.have.status(200);
-});
-
-pm.test("Metadata: updated_at is present", () => {
-    pm.expect(response).to.have.property('updated_at');
-    // Verify ISO 8601 Date Format
-    pm.expect(Date.parse(response.updated_at)).to.not.be.NaN;
-});
-
-pm.test("Data Consistency: Name matches request", () => {
-    const requestData = JSON.parse(pm.request.body.raw);
-    pm.expect(response.name).to.eql(requestData.name);
+    const actual = pm.response.json();
+    const submitted = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));
+    pm.expect(actual.name).to.eql(submitted.name);
+    pm.expect(actual.email).to.eql(submitted.email);
 });
 ```
-[⬅️ Back to Api Testing Index](./)
+
+The snippet assumes raw JSON and verifies the response only. Use GET for persistence. For timestamps, check parseability, ordering and clock tolerance rather than exact equality with the tester's clock. Idempotency concerns intended resource state, not identical timestamps or response bytes.
+
+[Back to API index](README.md)

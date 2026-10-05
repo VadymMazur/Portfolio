@@ -1,11 +1,11 @@
-# 🎨 Mindmap: Test Design Techniques
+# Mindmap: Test Design Techniques
 
-## 📌 Overview
+## Overview
 Test design techniques are essential for writing effective and efficient test cases. By applying these methods, a QA Engineer can maximize test coverage while minimizing the execution time, ensuring that critical bugs are caught without redundant testing.
 
 ---
 
-## 🧠 Test Design Classification
+## Test Design Classification
 
 ```mermaid
 graph LR
@@ -21,15 +21,15 @@ graph LR
   Black --> UC[Use Case Testing]
 
   %% White Box Techniques
-  White --> SC[Statement / Logic Coverage]
-  White --> DC[Branch / Path Coverage]
+  White --> SC[Statement Coverage]
+  White --> DC[Branch Coverage]
 
   %% Experience-based Techniques
   Exp --> EG[Error Guessing]
   Exp --> ET[Exploratory Testing]
 
   ```
-## 🔑 Core Black Box Techniques Explained
+## Core Black Box Techniques Explained
 As a Manual QA, I heavily utilize Black Box techniques to validate business logic and user flows:
 
 ### 1. Equivalence Partitioning (EP)
@@ -57,11 +57,11 @@ Designing tests based on user interactions and specific actor scenarios.
 
 Goal: Validating the end-to-end functionality from the end-user's perspective.
 
-### 🛠 When to apply?
+### When to apply?
 Strict Validation Rules: Combine EP + BVA for fields like passwords, age restrictions, or price filters.
 
 Complex Financial Logic: Use Decision Tables to map out tax rates or loan approvals.
 
 User Journeys: Apply State Transition and Use Case Testing to verify checkout flows and order lifecycles.
 
-[⬅️ Back to Mindmaps Index](./)
+[Back to mindmaps index](README.md)

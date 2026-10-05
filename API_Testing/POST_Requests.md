@@ -1,102 +1,26 @@
-# 📤 API Testing: POST Methods & Resource Creation
+# POST: creation and validation
 
-## 📌 Document Overview
-This section demonstrates the validation of data submission and resource creation. Key focus areas include payload structure, data types, authentication flows, and multi-part data handling.
-
----
-
-## 📋 POST Request Catalog
-
-| Module | Scenario | Request Type | Auth Required |
-| :--- | :--- | :--- | :--- |
-| **Auth** | User Login | `application/json` | No |
-| **Users** | Account Creation | `application/json` | Yes (Admin) |
-| **Inventory**| Product Review | `application/json` | Yes (User) |
-| **Media** | Image Upload | `multipart/form-data` | Yes (User) |
-| **Sales** | Order Placement | `application/json` | Yes (User) |
-
----
-
-## 🧪 Detailed Test Scenarios
-
-### 1. Account Creation (User Management)
-**Endpoint:** `POST /users`  
-**Description:** Validates the system's ability to create a new user entity while enforcing password security.
-
-**Request Body:**
-```json
-{
-  "name": "Eve",
-  "email": "eve@example.com",
-  "password": "securePassword123"
-}
-```
-Expected Results:
-
-Status Code: 201 Created
-
-Data Masking: Verified that the password field is not returned in the response body.
-
-Database Integrity: Response id is generated as a unique integer.
-
-### 2. Authentication & JWT Generation
-Endpoint: POST /auth/login
-
-Logic: Verifies credential validation and token issuance.
-
-Success Criteria:
-
-Status: 200 OK (Standard for login)
-
-Header: Set-Cookie or Authorization header contains a valid JWT.
-
-Payload:
+**Status:** proposed exercise; not executed. Assume authorized `POST /users` returns 201 and a unique ID; invalid input returns 400; duplicate normalized email returns 409. These are exercise assumptions, not universal rules.
 
 ```json
-{
-  "token": "eyJhbGciOiJIUzI1Ni...",
-  "expires_in": 3600,
-  "user_id": 51
-}
+{"name": "Synthetic User", "email": "qa.unique-run@example.test", "password": "Example-only-not-a-real-password-42!"}
 ```
-## 3. File Upload (Multipart Handling)
-Endpoint: POST /uploads/images
 
-Testing Focus: Binary data handling and file constraints.
+| Partition | Check | Expected result |
+|---|---|---|
+| Valid | Unique email and required fields | 201; follow-up GET matches; password absent |
+| Required name | Missing, null, empty, whitespace-only separately | 400; no created record |
+| Email | Valid, malformed, missing, duplicate, case-variant duplicate | Contract-consistent validation and normalization |
+| Length | Documented maximum N: N-1, N, N+1 | Accept through N; reject N+1 without truncation |
+| Privileged fields | Unauthorized role/owner value | No privilege escalation or reassignment |
+| Retry | Repeat after simulated timeout | Defined duplicate/idempotency-key behavior; POST is not inherently idempotent |
 
-Headers: Content-Type: multipart/form-data
+For rejected creation, search by the unique marker to check that nothing was saved. For success, save the returned ID for narrowly scoped cleanup. Record response and persistence checks separately.
 
-Form-Data Fields:
+## Authentication and other design examples
 
-file: mouse.jpg (Binary)
+- Token contract: check token location, lifetime and expiry/revocation. Cookie session: check invalidation, cookie attributes and CSRF. Do not assume every login uses JWT or an Authorization response header.
+- Upload: use a multipart file part and let Postman generate the boundary. Check extension/content mismatch and size at limit-1/limit/limit+1, including server-side rejection and storage effects.
+- Order: check quantities and totals against authoritative server prices, including rounding. Client-supplied totals must not override pricing rules.
 
-description: "Product Image"
-
-Validation Points: * Verify support for .jpg, .png formats.
-
-Check system behavior when file exceeds size limit (e.g., > 5MB).
-
-## 4. Complex Data Structures (Order Placement)
-Endpoint: POST /orders
-
-Complexity: Validates nested objects and arrays.
-
-Validation Logic (QA Insights):
-
-I perform Boundary Value Analysis on the quantity field (testing values: 0, 1, and max allowed). I also verify that total is correctly calculated based on the sum of product_id prices.
-
-Sample Request:
-```json
-{
-  "products": [
-    { "product_id": 101, "quantity": 2 },
-    { "product_id": 106, "quantity": 1 }
-  ],
-  "shipping_address": {
-    "street": "123 Market St",
-    "postal_code": "12345"
-  },
-  "payment_method": "credit_card"
-}
-```
-[⬅️ Back to Api Testing Index](./)
+[Back to API index](README.md)

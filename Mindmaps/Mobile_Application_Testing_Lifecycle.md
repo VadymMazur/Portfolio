@@ -1,11 +1,11 @@
-# 📱 Mindmap: Comprehensive Mobile Application Testing
+# Mindmap: Comprehensive Mobile Application Testing
 
-## 📌 Overview
+## Overview
 Mobile application testing requires a unique approach compared to web testing due to hardware constraints, diverse operating systems, and fluctuating network conditions. This mindmap outlines the core testing types required to ensure a stable and user-friendly mobile experience.
 
 ---
 
-## 🧠 Mobile Testing Strategy Mindmap
+## Mobile Testing Strategy Mindmap
 
 ```mermaid
 graph LR
@@ -25,7 +25,7 @@ graph LR
 
   %% Phase 4: Execution (The Core)
   Env --> Exec[Test Execution]
-  
+
   Exec --> Func[Functional & UI/UX]
   Exec --> API[API & Backend Integration]
   Exec --> Net[Network: 3G / LTE / Wi-Fi / Offline]
@@ -43,7 +43,7 @@ graph LR
   Closure --> TSR[Test Summary Report]
   Closure --> Metrics[Metrics & Pass/Fail Ratio]
 ```
-## 🔑 Phase Highlights
+## Phase Highlights
 Test Design: Mapping business requirements to actionable test scenarios, ensuring both iOS App Store guidelines and Android fragmentation are considered.
 
 API & Backend Integration: Verifying mobile app communication with the server, including payload validation and token expiration (OAuth/JWT).
@@ -52,4 +52,4 @@ Mobile-Specific Execution: Simulating real-world conditions like dropping networ
 
 Defect Reporting: Providing developers with clear steps to reproduce, device logs, and screen recordings via Jira or Azure DevOps.
 
-[⬅️ Back to Mindmaps Index](./)
+[Back to mindmaps index](README.md)

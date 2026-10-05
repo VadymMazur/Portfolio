@@ -1,61 +1,41 @@
-# 🗑️ API Testing: DELETE Request Validation
+# DELETE: access scope and lifecycle
 
-### 📝 Project Overview
-This module demonstrates the verification of data removal via REST API. The focus is on ensuring that the resource is correctly deleted from the database and subsequent requests return appropriate error codes.
+**Status:** proposed exercise; not executed. Assume `DELETE /users/{{temp_user_id}}` returns 204 without a body and hides the deleted user from normal reads. Physical vs soft deletion is a separate requirement.
 
----
+## Setup
 
-### 🚀 Endpoint Details
-* **Method:** `DELETE`
-* **URL:** `{{base_url}}/api/v1/users/{{user_id}}`
-* **Auth:** Bearer Token (Admin Access Required)
-
----
-
-### 🔍 Test Scenarios & Verification
-
-#### ✅ 1. Successful Resource Deletion (Positive)
-* **Description:** Delete an existing user by a valid ID.
-* **Expected Status Code:** `204 No Content` or `200 OK`.
-* **Post-condition:** A `GET` request to the same ID must return `404 Not Found`.
-
-#### ❌ 2. Deletion with Invalid ID (Negative)
-* **Description:** Attempt to delete a user using a non-existent or malformed ID.
-* **Expected Status Code:** `404 Not Found`.
-* **Response Body:** ```json
-    {
-      "error": "User not found",
-      "code": "USER_001"
-    }
-    ```
-
-#### ❌ 3. Unauthorized Access (Security)
-* **Description:** Attempt to delete a resource without a valid Authorization header.
-* **Expected Status Code:** `401 Unauthorized`.
-
----
-
-### 🛠️ Implementation in Postman
-
-To automate this test, I used the following **Pre-request Script** to ensure a resource exists before deletion:
+Create a disposable user in a separate setup request with a unique `example.test` email. Configure authentication for both setup and deletion. Never use shared or arbitrary records.
 
 ```javascript
-// Postman Pre-request Script
-pm.sendRequest({
-    url: pm.environment.get("base_url") + "/api/v1/users",
-    method: 'POST',
-    body: { mode: 'raw', raw: JSON.stringify({ name: "Temp User" }) }
-}, function (err, res) {
-    pm.environment.set("temp_user_id", res.json().id);
-});
-## Tests tab for validation:
-
-pm.test("Status code is 204", function () {
-    pm.response.to.have.status(204);
-});
-
-pm.test("Response time is less than 500ms", function () {
-    pm.expect(pm.response.responseTime).to.be.below(500);
+// Tests on setup POST /users.
+pm.environment.unset("temp_user_id");
+pm.test("Setup created a disposable user", () => {
+    pm.response.to.have.status(201);
+    const body = pm.response.json();
+    pm.expect(body.id).to.be.a("number");
+    pm.environment.set("temp_user_id", body.id);
 });
 ```
-[⬅️ Back to Api Testing Index](./)
+
+Stop if setup fails. Separate setup makes failures easier to inspect than an unchecked asynchronous pre-request call.
+
+| ID | Condition | Expected result under this exercise contract |
+|---|---|---|
+| DEL-01 | Owned disposable user | 204; empty body; GET 404; list excludes ID |
+| DEL-02 | Repeat DELETE | 404 here; remains deleted. Different codes do not alone violate idempotency |
+| DEL-03 | Malformed ID | 400; distinguish invalid syntax from a well-formed missing ID |
+| DEL-04 | Missing/invalid credentials | 401; record unchanged |
+| DEL-05 | No permission or outside scope | 403 or concealed 404 per contract; no deletion |
+| DEL-06 | Dependent objects exist | Defined restrict/cascade/soft-delete behavior; no orphaning |
+
+```javascript
+// Tests on DEL-01 only.
+pm.test("Delete returns no content", () => {
+    pm.response.to.have.status(204);
+    pm.expect(pm.response.text()).to.eql("");
+});
+```
+
+Run GET verification separately. A 204 alone does not prove physical deletion or correct treatment of related data.
+
+[Back to API index](README.md)
