@@ -1,11 +1,29 @@
-# 📑 Vadym Mazur - Manual QA Engineer Portfolio
+# 📑 Vadym Mazur - QA Testing Portfolio
 
 [![QA Testing](https://img.shields.io/badge/Testing-Manual-blue.svg)](#)
 [![Software Quality Assurance](https://img.shields.io/badge/QA-Quality_Assurance-green.svg)](#)
 [![SQL](https://img.shields.io/badge/Database-SQL-orange.svg)](#)
 [![API Testing](https://img.shields.io/badge/API-Postman-red.svg)](#)
 
-Welcome to my repository! I am a **QA Engineer** focused on a systematic approach to software quality assurance. This repository contains examples of my work, demonstrating the full testing lifecycle: from requirements analysis to final test summary reports.
+I am a **QA Engineer** focused on web and API testing. This portfolio contains test plans, checklists, defect reports, API examples, SQL queries, and performance-testing artifacts. Start with the two documented DealFlow CRM cases below.
+
+## Featured QA Cases
+
+### API validation: reserved lead status
+
+Found that lead creation accepts a status reserved for conversion. Documented the unexpected HTTP 201 response, failed Postman assertions, and persisted inconsistent state through a follow-up GET.
+
+**Skills:** API testing · Postman · Negative testing · Data validation
+
+[View API case study (PDF, 5 pages)](./Bug_Reports/TC-API-LEAD-006_QA_Case.pdf)
+
+### Telegram integration: connection failure
+
+Documented a reproducible connection failure using UI and network evidence, with clear reproduction steps and follow-up investigation. Root cause remains unconfirmed; token validity was not independently verified.
+
+**Skills:** Manual testing · Chrome DevTools · Defect reporting
+
+[View Telegram case study (PDF, 2 pages)](./Bug_Reports/CQ-2_Telegram_QA_Case.pdf)
 
 ---
 
@@ -28,6 +46,8 @@ Below are the repository folders organized by key QA artifacts:
 | [**`API_Testing`**](./API_Testing) | Postman collections (REST/JSON) and SoapUI project files. | Postman, Newman, REST API, JSON Validation |
 | [**`SQL_Queries`**](./SQL_Queries) | Scripts for data validation and complex database queries. | SELECT, JOINs, Aggregate functions, Pattern Matching |
 | [**`Mindmaps`**](./Mindmaps) | Visual architecture maps and functional decomposition. | XMind, MindMeister, Visual Planning |
+| [**`Performance_Testing`**](./Performance_Testing) | API performance-testing report, JMeter plan, and results. | Apache JMeter, Performance Analysis |
+
 
 ---
 
@@ -48,8 +68,8 @@ Below are the repository folders organized by key QA artifacts:
 I am open to discussing my projects or potential collaboration. Let's connect!
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vadym-mazur-qa/)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](vadik.mazur@gmail.com)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:vadik.mazur@gmail.com)
 [![Telegram](https://img.shields.io/badge/Telegram-26A6E1?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/vadimX9)
 
 ---
-*Last updated: February 2026*
+*Last updated: 5 October 2026*

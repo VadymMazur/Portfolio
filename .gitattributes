@@ -1,0 +1,2 @@
+# Keep PDF evidence byte-for-byte intact and omit text diffs.
+*.pdf binary
